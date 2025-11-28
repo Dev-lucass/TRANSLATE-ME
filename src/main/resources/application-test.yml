@@ -1,0 +1,13 @@
+spring:
+
+  datasource:
+    url: jdbc:h2:mem:translateme_db
+    username: sa
+    password:
+
+  jpa:
+    database: H2
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true

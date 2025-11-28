@@ -1,3 +1,16 @@
 spring:
   application:
     name: TranslateMe-API
+    version: 1.0
+
+  output:
+    ansi:
+      enabled: ALWAYS
+
+
+  main:
+    banner-mode: OFF
+
+  profiles:
+    active:
+      - test
