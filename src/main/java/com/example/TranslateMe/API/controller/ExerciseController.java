@@ -2,6 +2,7 @@ package com.example.TranslateMe.API.controller;
 
 import com.example.TranslateMe.API.dto.ExerciseDTO;
 import com.example.TranslateMe.API.dto.ResponseDTO;
+import com.example.TranslateMe.API.exceptions.ExerciseIdNotFoundException;
 import com.example.TranslateMe.API.model.Exercise;
 import com.example.TranslateMe.API.model.enums.ExerciseLevel;
 import com.example.TranslateMe.API.service.ExerciseService;
@@ -40,7 +41,7 @@ public class ExerciseController {
     }
 
     @GetMapping("/{level}")
-    public ResponseEntity<?> findAllExercises(@PathVariable("level") ExerciseLevel level) {
+    public ResponseEntity<?> findByLevel(@PathVariable("level") ExerciseLevel level) {
         try {
             log.info("GET/level");
 
@@ -72,7 +73,7 @@ public class ExerciseController {
     }
 
     @PostMapping("/solve")
-    public ResponseEntity<?> solve(@RequestBody String answer) {
+    public ResponseEntity<?> solveExercise(@RequestBody String answer) {
         try {
             log.info("POST/solve");
 
@@ -89,6 +90,20 @@ public class ExerciseController {
                     .build();
 
             return ResponseEntity.ok(exerciseDTO);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/help/{id}")
+    public ResponseEntity<?> helpExercise(@PathVariable("id") Long id) {
+        try {
+            log.info("POST/helpExercise");
+            Exercise exercise = service.findExerciseById(id).orElseThrow(() -> new ExerciseIdNotFoundException("Exercise ID not found"));
+
+           // return help here
+            return ResponseEntity.ok().build();
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
