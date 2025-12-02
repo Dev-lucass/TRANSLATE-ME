@@ -2,10 +2,11 @@ package com.example.TranslateMe.API.service;
 
 import com.example.TranslateMe.API.model.Exercise;
 import com.example.TranslateMe.API.model.enums.ExerciseLevel;
-import com.example.TranslateMe.API.repository.ExerviceRepository;
+import com.example.TranslateMe.API.repository.ExerciseRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ExerciseService {
 
-    private final ExerviceRepository repository;
+    private final ExerciseRepository repository;
 
     public Exercise save(Exercise exercise) {
         return repository.save(exercise);

@@ -1,8 +1,10 @@
 package com.example.TranslateMe.API.controller;
 
 import com.example.TranslateMe.API.dto.ExerciseDTO;
+import com.example.TranslateMe.API.dto.ExerciseRequestDTO;
 import com.example.TranslateMe.API.dto.ResponseDTO;
 import com.example.TranslateMe.API.exceptions.ExerciseIdNotFoundException;
+import com.example.TranslateMe.API.mapper.ExerciseMapper;
 import com.example.TranslateMe.API.model.Exercise;
 import com.example.TranslateMe.API.model.enums.ExerciseLevel;
 import com.example.TranslateMe.API.service.ExerciseService;
@@ -20,10 +22,13 @@ import java.util.List;
 public class ExerciseController {
 
     private final ExerciseService service;
+    private final ExerciseMapper mapper;
 
+    // endpoint para o administrador
     @GetMapping("/exercise")
     public ResponseEntity<?> findAllExercises() {
         try {
+
             log.info("GET");
             List<ResponseDTO> all = service.findAll()
                     .stream()
@@ -35,6 +40,7 @@ public class ExerciseController {
             }
 
             return ResponseEntity.ok(all);
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -55,16 +61,19 @@ public class ExerciseController {
             }
 
             return ResponseEntity.ok(all);
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
+    // endpoint para o administrador
     @PostMapping("/save")
-    public ResponseEntity<?> saveExercise(@RequestBody Exercise exercise) {
+    public ResponseEntity<?> saveExercise(@RequestBody ExerciseDTO dto) {
         try {
             log.info("POST");
-            Exercise saved = service.save(exercise);
+            Exercise mapperExercise = mapper.toExercise(dto);
+            Exercise saved = service.save(mapperExercise);
             return ResponseEntity.ok(saved);
 
         } catch (Exception e) {
@@ -73,11 +82,10 @@ public class ExerciseController {
     }
 
     @PostMapping("/solve")
-    public ResponseEntity<?> solveExercise(@RequestBody String answer) {
+    public ResponseEntity<?> solveExercise(@RequestBody ExerciseRequestDTO requestDTO) {
         try {
             log.info("POST/solve");
-
-            Exercise correctAnswer = service.correctAnswer(answer);
+            Exercise correctAnswer = service.correctAnswer(requestDTO.response());
 
             if (correctAnswer == null) {
                 return ResponseEntity.badRequest().body("Incorret Answer, try again ...");
@@ -96,6 +104,7 @@ public class ExerciseController {
         }
     }
 
+    // implementar no ViewController
     @PostMapping("/help/{id}")
     public ResponseEntity<?> helpExercise(@PathVariable("id") Long id) {
         try {
