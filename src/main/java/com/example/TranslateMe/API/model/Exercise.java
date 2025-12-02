@@ -2,12 +2,16 @@ package com.example.TranslateMe.API.model;
 
 import com.example.TranslateMe.API.model.enums.ExerciseLevel;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tb_exercise")
 public class Exercise {
 
@@ -22,7 +26,7 @@ public class Exercise {
     @Enumerated(EnumType.STRING)
     private ExerciseLevel level;
 
-    @Column(nullable = false, name = "text")
+    @Column(nullable = false, name = "correctAnswer")
     private String correctAnswer;
 
 }
