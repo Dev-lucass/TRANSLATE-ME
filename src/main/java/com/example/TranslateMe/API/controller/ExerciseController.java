@@ -8,6 +8,7 @@ import com.example.TranslateMe.API.mapper.ExerciseMapper;
 import com.example.TranslateMe.API.model.Exercise;
 import com.example.TranslateMe.API.model.enums.ExerciseLevel;
 import com.example.TranslateMe.API.service.ExerciseService;
+import com.example.TranslateMe.API.service.OllamaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import java.util.List;
 public class ExerciseController {
 
     private final ExerciseService service;
+    private final OllamaService ollamaService;
     private final ExerciseMapper mapper;
 
     // endpoint para o administrador
@@ -85,24 +87,17 @@ public class ExerciseController {
     public ResponseEntity<?> solveExercise(@RequestBody ExerciseRequestDTO requestDTO) {
         try {
             log.info("POST/solve");
-            Exercise correctAnswer = service.correctAnswer(requestDTO.response());
 
-            if (correctAnswer == null) {
-                return ResponseEntity.badRequest().body("Incorret Answer, try again ...");
-            }
-
-            ExerciseDTO exerciseDTO = ExerciseDTO.builder()
-                    .text(correctAnswer.getText())
-                    .correctAnswer(correctAnswer.getCorrectAnswer().toLowerCase())
-                    .level(correctAnswer.getLevel().toString())
-                    .build();
-
-            return ResponseEntity.ok(exerciseDTO);
+            String prompt = ollamaService.getPrompt(requestDTO);
+            String aiResponse = ollamaService.ask(prompt);
+            return ResponseEntity.ok(aiResponse);
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+
     }
+
 
     // implementar no ViewController
     @PostMapping("/help/{id}")
@@ -111,7 +106,7 @@ public class ExerciseController {
             log.info("POST/helpExercise");
             Exercise exercise = service.findExerciseById(id).orElseThrow(() -> new ExerciseIdNotFoundException("Exercise ID not found"));
 
-           // return help here
+            // return help here
             return ResponseEntity.ok().build();
 
         } catch (Exception e) {

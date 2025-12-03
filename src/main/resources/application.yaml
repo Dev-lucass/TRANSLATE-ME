@@ -7,10 +7,12 @@ spring:
     ansi:
       enabled: ALWAYS
 
-
   main:
     banner-mode: OFF
+
 
   profiles:
     active:
       - test
+
+

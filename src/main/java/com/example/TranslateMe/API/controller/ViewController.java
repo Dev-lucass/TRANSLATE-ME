@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -80,6 +82,37 @@ public class ViewController {
         model.addAttribute("mensagens", Collections.emptyList());
         return "index";
     }
+
+    @PostMapping("/solve")
+    public String solveExercise(
+            @RequestParam("answer") String answer,
+            @RequestParam("originalText") String originalText,
+            Model model
+    ) {
+
+        ExerciseRequestDTO dto = new ExerciseRequestDTO(answer, originalText);
+        ResponseEntity<?> response = exerciseController.solveExercise(dto);
+
+        List<Map<String, String>> mensagens = new ArrayList<>();
+
+        // Mensagem do usuário
+        mensagens.add(criarMensagem(answer, "user"));
+
+        // Mensagem da IA ou erro
+        String respostaIA = response.getStatusCode().is2xxSuccessful() ? response.getBody().toString() : "Ocorreu um erro ao avaliar sua tradução.";
+
+        mensagens.add(criarMensagem(respostaIA, "ai"));
+
+        model.addAttribute("textoIngles", originalText);
+        model.addAttribute("mensagens", mensagens);
+        return "index";
+    }
+
+
+    private Map<String, String> criarMensagem(String texto, String tipo) {
+        return Map.of("texto", texto, "tipo", tipo);
+    }
+
 
 
 }
