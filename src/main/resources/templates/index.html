@@ -21,7 +21,7 @@
 
         <div class="select-level">
 
-            <form th:action="@{/chooseLevel}" class="options"  method="post" style="display:inline-block;">
+            <form th:action="@{/chooseLevel}" class="options" method="post" style="display:inline-block;">
                 <input type="hidden" name="level" value="EASY">
                 <button type="submit" class="level-btn">Beginner</button>
             </form>
@@ -55,15 +55,20 @@
                 </div>
             </div>
 
+            <!-- Loader exibido apenas se loading = true -->
+            <div id="loadingOverlay" class="loading-overlay" style="display:none;">
+                <div class="spinner"></div>
+                <p class="loading-text">A IA está pensando...</p>
+            </div>
+
+
             <form class="send-box" th:action="@{/solve}" method="post">
                 <input type="hidden" name="originalText" th:value="${textoIngles}">
-
                 <input type="text"
                        id="mensagemInput"
                        name="answer"
                        class="form-control"
                        placeholder="Digite sua tradução...">
-
                 <button type="submit" class="send-btn">Enviar</button>
             </form>
 
@@ -72,6 +77,6 @@
     </div>
 </div>
 
-
+<script th:src="@{/script.js}"></script>
 </body>
 </html>

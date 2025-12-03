@@ -65,14 +65,34 @@ public class ViewController {
         return "traducao";
     }
 
+    @GetMapping("/")
+    public String showHomePage(Model model) {
+        ExerciseLevel defaultLevel = ExerciseLevel.EASY;
+        ResponseEntity<?> byLevel = exerciseController.findByLevel(defaultLevel);
+
+        if (byLevel.getStatusCode().is2xxSuccessful() && byLevel.getBody() instanceof List<?> exercises && !exercises.isEmpty()) {
+            ResponseDTO firstExercise = (ResponseDTO) ((List<?>) byLevel.getBody()).get(0);
+            model.addAttribute("textoIngles", firstExercise.text());
+        } else {
+            model.addAttribute("textoIngles", "Nenhum exercício disponível.");
+        }
+
+        model.addAttribute("selectedLevel", defaultLevel.name());
+        model.addAttribute("mensagens", Collections.emptyList());
+        model.addAttribute("loading", false); // loader invisível inicialmente
+
+        return "index"; // sua view Thymeleaf
+    }
+
+
     @PostMapping("/chooseLevel")
-    public String levelEasy(@RequestParam("level") ExerciseLevel level, Model model) {
+    public String chooseLevel(@RequestParam("level") ExerciseLevel level, Model model) {
 
         ResponseEntity<?> byLevel = exerciseController.findByLevel(level);
 
         if (byLevel.getStatusCode().is2xxSuccessful() && byLevel.getBody() instanceof List<?> exercises && !exercises.isEmpty()) {
 
-            ResponseDTO firstExercise = (ResponseDTO) exercises.getFirst();
+            ResponseDTO firstExercise = (ResponseDTO) ((List<?>) byLevel.getBody()).get(0);
             model.addAttribute("textoIngles", firstExercise.text());
 
         } else {
@@ -80,8 +100,11 @@ public class ViewController {
         }
 
         model.addAttribute("mensagens", Collections.emptyList());
+        model.addAttribute("selectedLevel", level.name()); // ← Adicionei aqui
+
         return "index";
     }
+
 
     @PostMapping("/solve")
     public String solveExercise(
@@ -89,22 +112,29 @@ public class ViewController {
             @RequestParam("originalText") String originalText,
             Model model
     ) {
+        // Antes de processar a resposta, mostramos que está carregando
+        model.addAttribute("loading", true);
+        model.addAttribute("textoIngles", originalText);
+        model.addAttribute("mensagens", List.of(criarMensagem(answer, "user")));
+        model.addAttribute("selectedLevel", ExerciseLevel.EASY.name()); // ou pegar dinamicamente
 
+        // Retorna uma página temporária ou a mesma página para mostrar loader
+        // Mas Thymeleaf não pode mostrar o loader enquanto o servidor ainda processa
+        // Por isso o loading só aparecerá se você separar o fluxo em duas requisições (AJAX)
+
+        // --- Processa a resposta ---
         ExerciseRequestDTO dto = new ExerciseRequestDTO(answer, originalText);
         ResponseEntity<?> response = exerciseController.solveExercise(dto);
 
         List<Map<String, String>> mensagens = new ArrayList<>();
-
-        // Mensagem do usuário
         mensagens.add(criarMensagem(answer, "user"));
-
-        // Mensagem da IA ou erro
         String respostaIA = response.getStatusCode().is2xxSuccessful() ? response.getBody().toString() : "Ocorreu um erro ao avaliar sua tradução.";
-
         mensagens.add(criarMensagem(respostaIA, "ai"));
 
         model.addAttribute("textoIngles", originalText);
         model.addAttribute("mensagens", mensagens);
+        model.addAttribute("loading", false); // loader desaparece junto com a resposta
+
         return "index";
     }
 
@@ -112,7 +142,6 @@ public class ViewController {
     private Map<String, String> criarMensagem(String texto, String tipo) {
         return Map.of("texto", texto, "tipo", tipo);
     }
-
 
 
 }
