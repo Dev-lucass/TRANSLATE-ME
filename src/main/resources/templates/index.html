@@ -55,10 +55,18 @@
                 </div>
             </div>
 
-            <form class="send-box" th:action="@{/sendAnswer}" method="post">
-                <input type="text" id="mensagemInput" name="answer" class="form-control" placeholder="Digite sua tradução...">
+            <form class="send-box" th:action="@{/solve}" method="post">
+                <input type="hidden" name="originalText" th:value="${textoIngles}">
+
+                <input type="text"
+                       id="mensagemInput"
+                       name="answer"
+                       class="form-control"
+                       placeholder="Digite sua tradução...">
+
                 <button type="submit" class="send-btn">Enviar</button>
             </form>
+
         </div>
 
     </div>
