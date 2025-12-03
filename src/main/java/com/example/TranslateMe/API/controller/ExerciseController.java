@@ -8,7 +8,7 @@ import com.example.TranslateMe.API.mapper.ExerciseMapper;
 import com.example.TranslateMe.API.model.Exercise;
 import com.example.TranslateMe.API.model.enums.ExerciseLevel;
 import com.example.TranslateMe.API.service.ExerciseService;
-import com.example.TranslateMe.API.service.OllamaService;
+import com.example.TranslateMe.API.service.GeminiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ import java.util.List;
 public class ExerciseController {
 
     private final ExerciseService service;
-    private final OllamaService ollamaService;
+    private final GeminiService geminiService;
     private final ExerciseMapper mapper;
 
     // endpoint para o administrador
@@ -94,8 +94,7 @@ public class ExerciseController {
                 return ResponseEntity.badRequest().body("Texto para traduzir não encontrado");
             }
 
-            String prompt = ollamaService.getPrompt(exercise, requestDTO.response());
-            String aiResponse = ollamaService.ask(prompt);
+            String aiResponse = geminiService.ask(exercise, requestDTO.response());
 
             if (aiResponse == null || aiResponse.isEmpty()) {
                 return ResponseEntity.status(500).body("O modelo não retornou resposta. Verifique se o Ollama está rodando.");
@@ -108,7 +107,6 @@ public class ExerciseController {
             return ResponseEntity.status(500).body("Ocorreu um erro ao avaliar sua tradução: " + e.getMessage());
         }
     }
-
 
 
     // implementar no ViewController
