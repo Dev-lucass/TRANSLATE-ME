@@ -1,5 +1,6 @@
 package com.example.TranslateMe.API.service;
 
+import com.example.TranslateMe.API.dto.ExerciseDTO;
 import com.example.TranslateMe.API.model.Exercise;
 import com.example.TranslateMe.API.model.enums.ExerciseLevel;
 import com.example.TranslateMe.API.repository.ExerciseRepository;
@@ -42,11 +43,23 @@ public class ExerciseService {
         return repository.findByLevel(level);
     }
 
-    public Exercise correctAnswer (String answer)  {
+    public Exercise correctAnswer(String answer) {
         return repository.findByCorrectAnswer(answer.toLowerCase());
     }
 
     public Optional<Exercise> findExerciseById(Long id) {
         return repository.findById(id);
+    }
+
+    public ExerciseDTO findText(String text) {
+
+        Exercise byText = repository.findByText(text);
+
+        return ExerciseDTO.
+                builder()
+                .text(byText.getText())
+                .level(byText.getLevel().toString())
+                .correctAnswer(byText.getCorrectAnswer())
+                .build();
     }
 }

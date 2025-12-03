@@ -88,15 +88,27 @@ public class ExerciseController {
         try {
             log.info("POST/solve");
 
-            String prompt = ollamaService.getPrompt(requestDTO);
+            ExerciseDTO exercise = service.findText(requestDTO.originalText());
+
+            if (exercise == null) {
+                return ResponseEntity.badRequest().body("Texto para traduzir não encontrado");
+            }
+
+            String prompt = ollamaService.getPrompt(exercise, requestDTO.response());
             String aiResponse = ollamaService.ask(prompt);
+
+            if (aiResponse == null || aiResponse.isEmpty()) {
+                return ResponseEntity.status(500).body("O modelo não retornou resposta. Verifique se o Ollama está rodando.");
+            }
+
             return ResponseEntity.ok(aiResponse);
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            log.error("Erro ao avaliar tradução", e);
+            return ResponseEntity.status(500).body("Ocorreu um erro ao avaliar sua tradução: " + e.getMessage());
         }
-
     }
+
 
 
     // implementar no ViewController

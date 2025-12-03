@@ -14,4 +14,5 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
 
     Exercise findByCorrectAnswer(String correctAnswer);
 
+    Exercise findByText(String text);
 }

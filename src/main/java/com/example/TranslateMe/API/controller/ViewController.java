@@ -112,17 +112,12 @@ public class ViewController {
             @RequestParam("originalText") String originalText,
             Model model
     ) {
-        // Antes de processar a resposta, mostramos que está carregando
+
         model.addAttribute("loading", true);
         model.addAttribute("textoIngles", originalText);
         model.addAttribute("mensagens", List.of(criarMensagem(answer, "user")));
         model.addAttribute("selectedLevel", ExerciseLevel.EASY.name()); // ou pegar dinamicamente
 
-        // Retorna uma página temporária ou a mesma página para mostrar loader
-        // Mas Thymeleaf não pode mostrar o loader enquanto o servidor ainda processa
-        // Por isso o loading só aparecerá se você separar o fluxo em duas requisições (AJAX)
-
-        // --- Processa a resposta ---
         ExerciseRequestDTO dto = new ExerciseRequestDTO(answer, originalText);
         ResponseEntity<?> response = exerciseController.solveExercise(dto);
 
@@ -133,7 +128,7 @@ public class ViewController {
 
         model.addAttribute("textoIngles", originalText);
         model.addAttribute("mensagens", mensagens);
-        model.addAttribute("loading", false); // loader desaparece junto com a resposta
+        model.addAttribute("loading", false);
 
         return "index";
     }
