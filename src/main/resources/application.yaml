@@ -10,7 +10,6 @@ spring:
   main:
     banner-mode: OFF
 
-
   profiles:
     active:
       - test
