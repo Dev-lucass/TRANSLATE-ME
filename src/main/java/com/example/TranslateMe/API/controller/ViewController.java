@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -92,18 +89,21 @@ public class ViewController {
 
         if (byLevel.getStatusCode().is2xxSuccessful() && byLevel.getBody() instanceof List<?> exercises && !exercises.isEmpty()) {
 
-            ResponseDTO firstExercise = (ResponseDTO) ((List<?>) byLevel.getBody()).get(0);
-            model.addAttribute("textoIngles", firstExercise.text());
+            List<ResponseDTO> list = (List<ResponseDTO>) exercises;
+
+            ResponseDTO randomExercise = list.get(new Random().nextInt(list.size()));
+            model.addAttribute("textoIngles", randomExercise.text());
 
         } else {
             model.addAttribute("textoIngles", "Nenhum exercício disponível.");
         }
 
         model.addAttribute("mensagens", Collections.emptyList());
-        model.addAttribute("selectedLevel", level.name()); // ← Adicionei aqui
+        model.addAttribute("selectedLevel", level.name());
 
         return "index";
     }
+
 
 
     @PostMapping("/solve")

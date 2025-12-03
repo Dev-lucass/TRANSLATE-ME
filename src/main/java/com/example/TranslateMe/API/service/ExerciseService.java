@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,14 +40,6 @@ public class ExerciseService {
 
     public List<Exercise> findByLevel(ExerciseLevel level) {
         return repository.findByLevel(level);
-    }
-
-    public Exercise correctAnswer(String answer) {
-        return repository.findByCorrectAnswer(answer.toLowerCase());
-    }
-
-    public Optional<Exercise> findExerciseById(Long id) {
-        return repository.findById(id);
     }
 
     public ExerciseDTO findText(String text) {

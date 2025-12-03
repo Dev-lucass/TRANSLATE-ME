@@ -3,7 +3,6 @@ package com.example.TranslateMe.API.controller;
 import com.example.TranslateMe.API.dto.ExerciseDTO;
 import com.example.TranslateMe.API.dto.ExerciseRequestDTO;
 import com.example.TranslateMe.API.dto.ResponseDTO;
-import com.example.TranslateMe.API.exceptions.ExerciseIdNotFoundException;
 import com.example.TranslateMe.API.mapper.ExerciseMapper;
 import com.example.TranslateMe.API.model.Exercise;
 import com.example.TranslateMe.API.model.enums.ExerciseLevel;
@@ -105,22 +104,6 @@ public class ExerciseController {
         } catch (Exception e) {
             log.error("Erro ao avaliar tradução", e);
             return ResponseEntity.status(500).body("Ocorreu um erro ao avaliar sua tradução: " + e.getMessage());
-        }
-    }
-
-
-    // implementar no ViewController
-    @PostMapping("/help/{id}")
-    public ResponseEntity<?> helpExercise(@PathVariable("id") Long id) {
-        try {
-            log.info("POST/helpExercise");
-            Exercise exercise = service.findExerciseById(id).orElseThrow(() -> new ExerciseIdNotFoundException("Exercise ID not found"));
-
-            // return help here
-            return ResponseEntity.ok().build();
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
