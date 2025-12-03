@@ -23,11 +23,13 @@ public class GeminiService {
                 "Tradução do usuário: " + userResponse + "\n\n" +
                 "Sua tarefa é:\n" +
                 "1) Avalie a tradução de forma natural e amigável.\n" +
-                "2) Indique apenas palavras ou expressões incorretas e dê dicas curtas para melhorar.\n" +
-                "3) Não use caracteres especiais como asteriscos, setas ou Markdown.\n" +
-                "4) Não forneça a tradução completa, a menos que o usuário peça explicitamente.\n" +
-                "5) Responda em poucas frases, curta ou média, direta ao ponto.";
+                "2) Considere a tradução correta mesmo que o usuário tenha esquecido acentos, mas dê um aviso curto se faltar acentuação.\n" +
+                "3) Indique apenas palavras ou expressões incorretas e dê dicas curtas para melhorar.\n" +
+                "4) Não use caracteres especiais como asteriscos, setas ou Markdown.\n" +
+                "5) Não forneça a tradução completa, a menos que o usuário peça explicitamente.\n" +
+                "6) Responda em poucas frases, curta ou média, direta ao ponto.";
     }
+
 
 
 }
