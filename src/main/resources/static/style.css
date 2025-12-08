@@ -1,0 +1,216 @@
+/* RESET E BOX-SIZING */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* BODY */
+body {
+    background: #f6f7f9;
+    font-family: "Inter", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* CONTAINER */
+.container-app {
+    max-width: 900px;
+    width: 100%;
+}
+
+/* TÍTULO */
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 25px;
+    color: #1a1a1a;
+}
+
+/* CARD */
+.card-modern {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 28px;
+    border: 1px solid #e7e7e7;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+/* NÍVEL */
+.select-level {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.level-btn {
+    flex: 1; /* preenche todo o espaço disponível */
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #dcdcdc;
+    text-align: center;
+    cursor: pointer;
+    background: #fafafa;
+    transition: 0.2s;
+    font-weight: 600;
+    user-select: none;
+    min-width: 0;
+}
+
+.level-btn:hover {
+    background: #eaeaea;
+}
+
+.level-btn.active {
+    background: #1a1a1a;
+    color: white;
+    border-color: #1a1a1a;
+}
+
+/* SEÇÕES */
+.section-title {
+    margin-top: 25px;
+    font-weight: 600;
+    color: #222;
+}
+
+/* TEXTAREA */
+#textoIngles {
+    height: 75px;
+    resize: none;
+    font-size: 1.4rem;
+    margin-top: 10px;
+    border-radius: 12px;
+    background: #fff;
+    width: 100%;
+    padding: 12px;
+}
+
+/* CHAT */
+.chat-area {
+    margin-top: 30px;
+}
+
+.chat-box {
+    height: 330px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.bubble {
+    padding: 12px 16px;
+    border-radius: 14px;
+    max-width: 75%;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    display: block;
+    word-wrap: break-word;
+}
+
+.user {
+    background: #e8edf3;
+    margin-left: auto;
+}
+
+.ai {
+    background: white;
+    border: 1px solid #e4e4e4;
+}
+
+/* SEND BOX */
+.send-box {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.send-box input.form-control {
+    flex: 1 1 auto;
+    min-width: 0;
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid #dcdcdc;
+}
+
+.send-btn {
+    background: #1a1a1a;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 22px;
+    transition: 0.2s;
+    white-space: nowrap;
+}
+
+.send-btn:hover {
+    background: #333;
+}
+
+/* LOADING */
+.loading-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #1a1a1a;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+}
+
+.loading-text {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* MEDIA QUERIES RESPONSIVOS */
+
+/* Tablets e celulares maiores */
+@media (max-width: 768px) {
+    #textoIngles { height: 90px; font-size: 1.2rem; }
+    .chat-box { height: 250px; }
+    .level-btn { font-size: 0.95rem; }
+}
+
+/* Celulares pequenos */
+@media (max-width: 576px) {
+    .select-level {
+        flex-direction: column; /* botões um embaixo do outro */
+        align-items: stretch;   /* preenche toda largura */
+        gap: 12px; /* aumenta o espaçamento entre os botões */
+    }
+
+    .level-btn {
+        width: 100%; /* preenche toda a div */
+        font-size: 0.9rem;
+        margin-bottom: 0; /* o gap da div já dá espaçamento */
+        padding: 16px; /* aumenta o padding para que o botão não fique apertado */
+    }
+
+    .section-title {
+        margin-top: 20px; /* aumenta o espaçamento antes dos títulos */
+        margin-bottom: 8px; /* espaçamento depois do título */
+    }
+
+    #textoIngles { height: 100px; font-size: 1.1rem; }
+    .chat-box { height: 200px; }
+    .send-box { flex-direction: column; gap: 8px; }
+    .send-btn { width: 100%; }
+}

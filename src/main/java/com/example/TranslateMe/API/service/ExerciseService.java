@@ -1,0 +1,56 @@
+package com.example.TranslateMe.API.service;
+
+import com.example.TranslateMe.API.dto.ExerciseDTO;
+import com.example.TranslateMe.API.model.Exercise;
+import com.example.TranslateMe.API.model.enums.ExerciseLevel;
+import com.example.TranslateMe.API.repository.ExerciseRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class ExerciseService {
+
+    private final ExerciseRepository repository;
+
+    public Exercise save(Exercise exercise) {
+        return repository.save(exercise);
+    }
+
+    public List<Exercise> findAll() {
+        return repository.findAll();
+    }
+
+    @Transactional
+    public Exercise update(Long id, Exercise newExercise) {
+        return repository.findById(id).map(existing -> {
+                    existing.setText(newExercise.getText());
+                    existing.setLevel(newExercise.getLevel());
+                    return existing;
+                })
+                .orElseThrow();
+    }
+
+    public void delete(Long id) {
+        repository.findById(id).ifPresent(repository::delete);
+    }
+
+    public List<Exercise> findByLevel(ExerciseLevel level) {
+        return repository.findByLevel(level);
+    }
+
+    public ExerciseDTO findText(String text) {
+
+        Exercise byText = repository.findByText(text);
+
+        return ExerciseDTO.
+                builder()
+                .text(byText.getText())
+                .level(byText.getLevel().toString())
+                .correctAnswer(byText.getCorrectAnswer())
+                .build();
+    }
+}
