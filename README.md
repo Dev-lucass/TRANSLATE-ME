@@ -7,7 +7,7 @@ O projeto ainda está em desenvolvimento podendo haver bugs e receberá novas me
 
 ## 🚀 Acesse o site
 
-🔗 **Deploy:** https://translate-me-vr88.onrender.com
+🔗 **Deploy:** https://translate-me-qn7l.onrender.com
 
 ---
 
