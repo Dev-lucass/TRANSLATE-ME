@@ -9,6 +9,10 @@ O projeto ainda está em desenvolvimento podendo haver bugs e receberá novas me
 
 🔗 **Deploy:** https://translate-me-qn7l.onrender.com
 
+## AVISO !!!
+
+  O site pode ficar fora do ar, pois esta em contante desenvolvimento
+
 ---
 
 ## 🧠 Tecnologias Utilizadas
