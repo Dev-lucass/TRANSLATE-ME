@@ -9,9 +9,20 @@ O projeto ainda está em desenvolvimento podendo haver bugs e receberá novas me
 
 🔗 **Deploy:** https://translate-me-qn7l.onrender.com
 
+
+
+## 👨‍💻 Para  uso local 
+
+ **🗝️ Precisa criar uma api key no gemine e adicionar nas variaveis de ambiente do seu sistema opacional ou IDE**
+### link para criar a api key -> https://aistudio.google.com/app/api-keys
+
+
+
+
 ## AVISO !!!
 
   O site pode ficar fora do ar, pois esta em contante desenvolvimento
+  
 
 ---
 
