@@ -41,13 +41,6 @@ Windows (PowerShell):
 setx GEMINI_API_KEY "SUA_CHAVE_AQUI"
 ```
 
-
-
-## AVISO !!!
-
-  O site pode ficar fora do ar, pois esta em contante desenvolvimento
-  
-
 ---
 
 ## 🧠 Tecnologias Utilizadas
